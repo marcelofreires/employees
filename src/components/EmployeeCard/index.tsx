@@ -1,6 +1,6 @@
 import { Typography, Grid, Box, Avatar, Button, Theme } from '@mui/material'
 
-import { Employee } from 'src/types'
+import type { Employee } from 'src/types'
 import { EmployeeStatusLabel, employeeStatusColor } from 'src/constants'
 import { handleFirstLetter } from 'src/utils'
 import { Link } from 'react-router-dom'

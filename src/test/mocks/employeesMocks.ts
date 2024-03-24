@@ -1,4 +1,4 @@
-import { Employee } from 'src/types'
+import type { Employee } from 'src/types'
 
 const employeeMock1: Employee = {
   id: "1",

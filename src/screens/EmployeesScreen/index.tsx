@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 
 import { EmployeeCard } from 'src/components'
-import { Employees } from 'src/types'
+import type { Employees } from 'src/types'
 import { employeeService } from 'src/services/employeeService'
 import { BaseScreenLayout } from '../layouts/BaseScreenLayout'
 
