@@ -1,4 +1,5 @@
 import { Typography, AppBar, Toolbar, Box, alpha, Theme } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 export function AppHeader() {
   return (
@@ -14,23 +15,22 @@ export function AppHeader() {
       })}
     >
       <Toolbar>
-        <Box
-          component="a"
-          href='#'
-          sx={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            textDecoration: 'none'
-          }}
-        >
-          <Typography
-            variant="h4"
-            component="h1"
-            color={(theme: Theme) => theme.palette.text.primary}
+        <Link to="/">
+          <Box
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+            }}
           >
-            Gym
-          </Typography>
-        </Box>
+            <Typography
+              variant="h4"
+              component="h1"
+              color={(theme: Theme) => theme.palette.text.primary}
+            >
+              Gym
+            </Typography>
+          </Box>
+        </Link>
       </Toolbar>
     </AppBar>
   )

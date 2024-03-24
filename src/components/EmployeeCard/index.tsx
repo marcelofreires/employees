@@ -3,6 +3,7 @@ import { Typography, Grid, Box, Avatar, Button, Theme } from '@mui/material'
 import { Employee } from 'src/types'
 import { EmployeeStatusLabel, employeeStatusColor } from 'src/constants'
 import { handleFirstLetter } from 'src/utils'
+import { Link } from 'react-router-dom'
 
 const AVATAR_SIZE = 56
 
@@ -73,15 +74,18 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
             </Grid>
           </Box>
         </Grid>
-        <Button
-          variant="contained"
-          href="#"
-          sx={{
-            borderRadius: 4
-          }}
+        <Link to={`/employees/${employee.id}`}>
+          <Button
+            variant="contained"
+            component="span"
+            sx={{
+              borderRadius: 4,
+              width: '100%'
+            }}
           >
             Ver mais detalhes
           </Button>
+        </Link>
       </Grid>
     </Box>
   )
