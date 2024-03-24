@@ -21,17 +21,20 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 4,
-        p: 4
+        p: 4,
+        height: '100%'
       })}
     >
       <Grid
         container
         flexDirection="column"
+        height="100%"
       >
         <Grid
           container
           flexDirection="column"
           alignItems="center"
+          mb="auto"
         >
           <Avatar
             sx={{
