@@ -1,27 +1,38 @@
-import { Container, Typography, Paper, Grid, styled, Box } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { Typography, Grid, Box, Container, Theme, darken } from '@mui/material'
 
-import { AppHeader } from './components';
+import { AppHeader, EmployeeCard } from './components'
+import { Employees } from './types';
+import { employeeService } from './services/employeeService';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[200],
-  height: 300,
-  width: '100%',
-  display: 'block',
-}));
-
-function arr(numOfItems = 6) {
-  return Array.from(Array(numOfItems))
-}
+const BACKGROUND_DARKEN_COEFFICIENT = 0.0175
 
 function App() {
+  const [employees, setEmployees] = useState<Employees>([])
+
+  async function handleGetEmployees() {
+    const response = await employeeService.getEmployees()
+
+    setEmployees(response)
+  }
+
+  useEffect(() => {
+    handleGetEmployees()
+  }, [])
+
   return (
-    <>
+    <Box
+      bgcolor={(theme: Theme) => darken(theme.palette.background.default, BACKGROUND_DARKEN_COEFFICIENT)}
+    >
       <AppHeader />
       <Box
         component="main"
-        py={{ xs: 4, sm: 8 }}
+        py={{
+          xs: 4,
+          sm: 8
+        }}
       >
-        <Container>
+        <Container component="section">
           <Box>
             <Typography
               component="h2"
@@ -34,24 +45,33 @@ function App() {
           <Box>
             <Grid
               container
-              spacing={6}
+              spacing={{
+                xs: 4,
+                lg: 6,
+              }}
+              component="ul"
+              sx={{
+                listStyleType: 'none',
+                pl: 0
+              }}
             >
-              {arr(20).map((_, index) => (
+              {employees.map((employee) => (
                 <Grid
                   item
-                  key={index}
+                  key={employee?.id}
+                  component="li"
                   xs={12}
                   sm={6}
                   md={4}
                 >
-                  <Item />
+                  <EmployeeCard employee={employee} />
                 </Grid>
               ))}
             </Grid>
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   )
 }
 

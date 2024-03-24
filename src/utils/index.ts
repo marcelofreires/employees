@@ -1,0 +1,1 @@
+export { handleFirstLetter } from './handleFirstLetter'

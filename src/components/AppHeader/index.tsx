@@ -1,13 +1,12 @@
-import { Typography, AppBar, Toolbar, Box } from '@mui/material'
-import { Theme } from '@mui/material/styles'
+import { Typography, AppBar, Toolbar, Box, alpha, Theme } from '@mui/material'
 
-function AppHeader() {
+export function AppHeader() {
   return (
     <AppBar
       position="sticky"
       sx={(theme: Theme) => ({
-        background: 'rgba(255,255,255,0.8)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: alpha(theme.palette.background.default, 0.8),
+        backdropFilter: 'blur(6px)',
         boxShadow: 'none',
         borderBottomColor: theme.palette.divider,
         borderBottomWidth: 1,
@@ -36,5 +35,3 @@ function AppHeader() {
     </AppBar>
   )
 }
-
-export default AppHeader
