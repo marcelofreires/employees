@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material'
+import type { TextFieldVariants, Theme } from '@mui/material'
 
 export const employeeStatusColor = {
   active: (theme: Theme) => theme.palette.success.light,
@@ -13,3 +13,5 @@ export enum EmployeeStatusLabel {
   overdue = 'Atrasado',
   pending = 'Pendente',
 }
+
+export const TEXT_FIELD_VARIANT: TextFieldVariants = 'outlined'
