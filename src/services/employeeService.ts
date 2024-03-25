@@ -6,6 +6,13 @@ async function getEmployees() {
   return data
 }
 
+async function getEmployee(id: string) {
+  const { data } = await api.get(`/employees/${id}`)
+
+  return data
+}
+
 export const employeeService = {
-  getEmployees
+  getEmployees,
+  getEmployee
 }
