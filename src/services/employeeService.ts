@@ -1,9 +1,9 @@
 import { api } from 'src/api'
 
 async function getEmployees() {
-  const { data } = await api.get('/employees')
+  const response = await api.get('/employees')
 
-  return data
+  return response
 }
 
 async function getEmployee(id: string) {

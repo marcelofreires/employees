@@ -1,34 +1,38 @@
-import { useEffect, useState } from 'react'
-import { Alert, Backdrop, CircularProgress, Grid, Snackbar, Typography } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { Box, Chip, Grid, Typography } from '@mui/material'
 import type { AlertColor } from '@mui/material'
 
-import type { Employees } from 'src/types'
+import type { Employees, EmployeeStatus } from 'src/types'
 import { employeeService } from 'src/services/employeeService'
 import { BaseScreenLayout } from '../layouts/BaseScreenLayout'
 import { EmployeesList } from './components'
-import { EmployeeCard } from 'src/components'
+import { EmployeeCard, SnackbarAlert, Loading } from 'src/components'
 
-type Snackbar = {
+type SnackbarStateProps = {
   isOpen: boolean
   status: AlertColor
   message: string
 }
 
+type FilterEmployeeStatus = EmployeeStatus | null
+
 export function EmployeesScreen() {
   const [employees, setEmployees] = useState<Employees>([])
+  const [filterValue, setFilterValue] = useState<FilterEmployeeStatus>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [openSnackbar, setOpenSnackbar] = useState<Snackbar>({ isOpen: false, status: 'info', message: '' })
+  const [openSnackbar, setOpenSnackbar] = useState<SnackbarStateProps>({ isOpen: false, status: 'info', message: '' })
 
   async function handleGetEmployees() {
-    setIsLoading(true)
-    const response = await employeeService.getEmployees()
+    try {
+      setIsLoading(true)
+      const response = await employeeService.getEmployees()
 
-    setEmployees(response)
-    setIsLoading(false)
-  }
-
-  function handleCloseSnackbar() {
-    setOpenSnackbar((prevState) => ({...prevState, isOpen: false}))
+      setEmployees(response.data)
+    } catch (error) {
+      setEmployees([])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   async function handleDeleteEmployee(id: string) {
@@ -36,8 +40,7 @@ export function EmployeesScreen() {
       setIsLoading(true)
 
       await employeeService.deleteEmployee(id)
-
-      handleGetEmployees()
+      await handleGetEmployees()
 
       setOpenSnackbar({
         isOpen: true,
@@ -55,15 +58,20 @@ export function EmployeesScreen() {
     }
   }
 
-  function Loading() {
-    return (
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    )
+  function handleCloseSnackbar() {
+    setOpenSnackbar((prevState) => ({...prevState, isOpen: false}))
+  }
+
+  const filteredEmployees = useMemo(() => {
+    return filterValue ? employees.filter((employee) => employee.status === filterValue) : employees
+  }, [employees, filterValue])
+
+  function handleDisabledFilter(filterValue: FilterEmployeeStatus) {
+    return !(employees.some((employee) => employee.status === filterValue))
+  }
+
+  function handleSelectedFilter(selectedFilter: FilterEmployeeStatus) {
+    return filterValue === selectedFilter ? 'primary' : undefined
   }
 
   useEffect(() => {
@@ -73,12 +81,20 @@ export function EmployeesScreen() {
   return (
     <BaseScreenLayout>
       <Typography component="h2" variant="h4" mb={4}>Funcionários</Typography>
-      { isLoading && <Loading /> }
+      <Typography component="h3" variant="subtitle1" mb={2}>Estado do benefício</Typography>
+      <Box mb={2} pb={2} whiteSpace="nowrap" overflow="auto">
+        <Chip sx={{ mr: 2 }} label="Todos" onClick={() => setFilterValue(null)} color={handleSelectedFilter(null)} />
+        <Chip sx={{ mr: 2 }} label="Ativo" onClick={() => setFilterValue('active')} color={handleSelectedFilter('active')} disabled={handleDisabledFilter('active')} />
+        <Chip sx={{ mr: 2 }} label="Atrasado" onClick={() => setFilterValue('overdue')} color={handleSelectedFilter('overdue')} disabled={handleDisabledFilter('overdue')} />
+        <Chip sx={{ mr: 2 }} label="Inativo" onClick={() => setFilterValue('inactive')} color={handleSelectedFilter('inactive')} disabled={handleDisabledFilter('inactive')} />
+        <Chip sx={{ mr: 2 }} label="Pendente" onClick={() => setFilterValue('pending')} color={handleSelectedFilter('pending')} disabled={handleDisabledFilter('pending')} />
+      </Box>
+      { isLoading && <Loading isLoading={isLoading} /> }
       {
-        employees.length > 0 && (
+        filteredEmployees.length > 0 && (
           <EmployeesList>
             {
-              employees.map((employee) => (
+              filteredEmployees.map((employee) => (
                 <Grid
                   item
                   key={employee?.id}
@@ -94,16 +110,12 @@ export function EmployeesScreen() {
           </EmployeesList>
         )
       }
-      <Snackbar open={openSnackbar.isOpen} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={openSnackbar.status}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {openSnackbar.message}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert
+        isOpen={openSnackbar.isOpen}
+        onClose={handleCloseSnackbar}
+        type={openSnackbar.status}
+        message={openSnackbar.message}
+      />
     </BaseScreenLayout>
   )
 }
