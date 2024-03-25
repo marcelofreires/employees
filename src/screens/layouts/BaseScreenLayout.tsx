@@ -1,6 +1,12 @@
 import { Box, Container } from '@mui/material';
+import type { ContainerProps } from '@mui/material';
 
-export function BaseScreenLayout({ children }: { children: React.ReactNode }) {
+interface BaseScreenLayoutProps {
+  children: React.ReactNode
+  containerMaxWidth?: ContainerProps['maxWidth']
+}
+
+export function BaseScreenLayout({ children, containerMaxWidth }: BaseScreenLayoutProps) {
   return (
     <Box
       component="main"
@@ -9,7 +15,7 @@ export function BaseScreenLayout({ children }: { children: React.ReactNode }) {
         sm: 8
       }}
     >
-      <Container component="section">
+      <Container maxWidth={containerMaxWidth} component="section">
         {children}
       </Container>
     </Box>

@@ -20,7 +20,7 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
         borderColor: theme.palette.divider,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderRadius: 4,
+        borderRadius: 3,
         p: 4,
         height: '100%'
       })}
@@ -78,16 +78,7 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
           </Box>
         </Grid>
         <Link to={`/employees/${employee.id}`}>
-          <Button
-            variant="contained"
-            component="span"
-            sx={{
-              borderRadius: 4,
-              width: '100%'
-            }}
-          >
-            Ver mais detalhes
-          </Button>
+          <Button variant="contained" component="span" fullWidth>Ver mais detalhes</Button>
         </Link>
       </Grid>
     </Box>
