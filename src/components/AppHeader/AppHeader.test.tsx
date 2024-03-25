@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
+import { render } from 'src/test/test-utils'
 import { AppHeader } from '.'
 
 describe('<AppHeader />', () => {

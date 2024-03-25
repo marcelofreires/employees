@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
+import { render } from 'src/test/test-utils'
 import { EmployeeCard } from '.'
 import { employeeMock1, employeeMock2, employeeMock3, employeeMock4 } from 'src/test/mocks/employeesMocks'
 
@@ -8,7 +9,7 @@ describe('<EmployeeCard />', () => {
     render(<EmployeeCard employee={employeeMock1} />)
 
     expect(screen.getByRole('heading', { name: /Vincent Barnett/i })).toBeInTheDocument()
-    expect(screen.getByText('vincent.barnett@example.com')).toBeInTheDocument()
+    expect(screen.getByText(/vincent\.barnett@example\.com/i)).toBeInTheDocument()
     expect(screen.getByText(/Frontend Developer/i)).toBeInTheDocument()
     expect(screen.getByText(/Ativo/i)).toBeInTheDocument()
     expect(screen.getByRole('link', {name: /Ver mais detalhes/i})).toBeInTheDocument()
