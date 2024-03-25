@@ -12,7 +12,14 @@ async function getEmployee(id: string) {
   return data
 }
 
+async function deleteEmployee(id: string) {
+  const response = await api.delete(`/employees/${id}`)
+
+  return response
+}
+
 export const employeeService = {
   getEmployees,
-  getEmployee
+  getEmployee,
+  deleteEmployee
 }

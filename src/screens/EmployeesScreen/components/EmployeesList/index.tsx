@@ -1,13 +1,12 @@
 import { Grid } from '@mui/material'
 
-import type { Employees } from 'src/types'
-import { EmployeeCard } from 'src/components'
+import type { ReactNode } from 'react'
 
 interface EmployeesListProps {
-  employees: Employees
+  children: ReactNode
 }
 
-export function EmployeesList({ employees }: EmployeesListProps) {
+export function EmployeesList({ children }: EmployeesListProps) {
   return (
     <Grid
       container
@@ -21,18 +20,7 @@ export function EmployeesList({ employees }: EmployeesListProps) {
         pl: 0
       }}
     >
-      {employees.map((employee) => (
-        <Grid
-          item
-          key={employee?.id}
-          component="li"
-          xs={12}
-          sm={6}
-          md={4}
-        >
-          <EmployeeCard employee={employee} />
-        </Grid>
-      ))}
+      {children}
     </Grid>
   )
 }

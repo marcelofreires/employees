@@ -1,4 +1,5 @@
-import { Typography, Grid, Box, Avatar, Button, Theme } from '@mui/material'
+import { Typography, Grid, Box, Avatar, Button, Theme, IconButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import type { Employee } from 'src/types'
 import { EmployeeStatusLabel, employeeStatusColor } from 'src/constants'
@@ -9,9 +10,10 @@ const AVATAR_SIZE = 56
 
 interface EmployeeCardProps {
   employee: Employee
+  onClickDelete?: () => void
 }
 
-export function EmployeeCard({ employee }: EmployeeCardProps) {
+export function EmployeeCard({ employee, onClickDelete }: EmployeeCardProps) {
   return (
     <Box
       component="section"
@@ -22,9 +24,26 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
         borderStyle: 'solid',
         borderRadius: 3,
         p: 4,
-        height: '100%'
+        height: '100%',
+        position: 'relative'
       })}
     >
+      <Box
+        sx={{
+          position: 'absolute',
+          right: 4,
+          top: 4
+        }}
+      >
+        <IconButton
+          aria-label="delete"
+          color="error"
+          title="Deletar"
+          onClick={onClickDelete}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Box>
       <Grid
         container
         flexDirection="column"
