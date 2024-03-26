@@ -4,10 +4,14 @@ import { Link, useParams } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import { BaseScreenLayout } from '../layouts/BaseScreenLayout'
-import type { Employee } from 'src/types'
+import type { Employee, EmployeeFormValues } from 'src/types'
 import { employeeService } from 'src/services/employeeService'
-import { EmployeeForm } from './components'
+import { EditEmployeeForm } from './components'
 import { Loading } from 'src/components'
+
+export interface EmployeeProps extends EmployeeFormValues {
+  id: string
+}
 
 export function EmployeesDetailsScreen() {
   const [employee, setEmployee] = useState<Employee | null>(null)
@@ -15,15 +19,11 @@ export function EmployeesDetailsScreen() {
   const { id } = useParams<{ id: Employee['id'] }>()
 
   async function handleGetEmployee(id: string) {
-
-
     try {
       setIsLoading(true)
       const response = await employeeService.getEmployee(id)
 
       setEmployee(response)
-    } catch (error) {
-      setEmployee(null)
     } finally {
       setIsLoading(false)
     }
@@ -45,8 +45,8 @@ export function EmployeesDetailsScreen() {
       { isLoading && <Loading isLoading={isLoading} /> }
       {employee && (
         <>
-          <Typography component="h2" variant="h4" mb={4}>{employee?.name}</Typography>
-          <EmployeeForm employee={employee} />
+          <Typography component="h2" variant="h4" mb={4}>Editar</Typography>
+          <EditEmployeeForm employee={employee} />
         </>
       )}
     </BaseScreenLayout>

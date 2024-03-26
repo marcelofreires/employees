@@ -1,32 +1,56 @@
-import { Button, CircularProgress, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import type { Theme } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 
-import { DOCUMENT_FIELD_MAX_LENGTH, EMPLOYEE_STATUS, EmployeeStatusLabel, validationSchema, TEXT_FIELD_VARIANT } from 'src/constants'
-import type { EmployeeFormValues } from 'src/types';
+import { DOCUMENT_FIELD_MAX_LENGTH, EMPLOYEE_STATUS, EmployeeStatusLabel, TEXT_FIELD_VARIANT, validationSchema } from 'src/constants'
+import type { Employee } from 'src/types'
+import { employeeService } from 'src/services/employeeService'
 
-interface AddEmployeeFormProps {
-  handleCreateEmployee: (values: EmployeeFormValues) => void
-  handleCloseModal: () => void
+interface EditEmployeeFormProps {
+  employee: Employee
 }
 
-export function AddEmployeeForm({ handleCreateEmployee, handleCloseModal }: AddEmployeeFormProps) {
+export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
   const formik = useFormik({
     initialValues: {
-      name: '',
-      occupation: '',
-      email: '',
-      document: '',
-      status: '',
+      id: employee.id,
+      name: employee.name,
+      occupation: employee.occupation,
+      email: employee.email,
+      document: employee.document,
+      status: employee.status,
     },
     validationSchema,
-    onSubmit: (values) => {
-      handleCreateEmployee(values)
+    onSubmit: async (values, actions) => {
+      try {
+        const response = await employeeService.updateEmployee({
+          employeeId: employee.id,
+          employeeData: values
+        })
+        actions.resetForm({ values: response.data })
+
+        // TODO: Exibir mensagem sucesso para o usuário
+      } catch (error) {
+        // TODO: Exibir mensagem erro para o usuário
+        console.error('DEU ERRO', error)
+      } finally {
+        actions.setSubmitting(false)
+      }
     },
   })
 
   return (
-    <>
-      <Typography component="h3" variant="h5" mb={4}>Adicionar funcionário</Typography>
+    <Box
+      sx={(theme: Theme) => ({
+        bgcolor: theme.palette.background.default,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderRadius: 2,
+        p: 4,
+      })}
+    >
       <Grid container spacing={3} component="form" onSubmit={formik.handleSubmit}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -66,8 +90,7 @@ export function AddEmployeeForm({ handleCreateEmployee, handleCloseModal }: AddE
               maxLength: DOCUMENT_FIELD_MAX_LENGTH
             }}
             variant={TEXT_FIELD_VARIANT}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            disabled
             value={formik.values.document}
             error={formik.touched.document && Boolean(formik.errors.document)}
             helperText={formik.touched.document && formik.errors.document}
@@ -113,15 +136,17 @@ export function AddEmployeeForm({ handleCreateEmployee, handleCloseModal }: AddE
         </Grid>
         <Grid container item xs={12} sm={6} ml="auto" spacing={3}>
           <Grid item xs={6}>
-            <Button onClick={handleCloseModal} fullWidth disabled={formik.isSubmitting || !formik.dirty}>Cancelar</Button>
+            <Link to="/">
+              <Button fullWidth disabled={formik.isSubmitting}>Cancelar</Button>
+            </Link>
           </Grid>
           <Grid item xs={6}>
             <Button variant="contained" fullWidth type="submit" disabled={formik.isSubmitting || !formik.dirty}>
-              { formik.isSubmitting ? <CircularProgress size={24} /> : 'Adicionar' }
+              { formik.isSubmitting ? <CircularProgress size={24} /> : 'Editar' }
             </Button>
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </Box>
   )
 }
