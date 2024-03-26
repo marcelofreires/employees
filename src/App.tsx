@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { AppHeader } from './components'
 import AppRoutes from './routes';
+import { SnackbarAlertProvider } from './contexts/SnackbarAlert';
 
 const BACKGROUND_DARKEN_COEFFICIENT = 0.0175
 
@@ -14,10 +15,12 @@ function App() {
         minHeight: '100vh'
       }}
     >
-      <BrowserRouter>
-        <AppHeader />
-        <AppRoutes />
-      </BrowserRouter>
+      <SnackbarAlertProvider>
+        <BrowserRouter>
+          <AppHeader />
+          <AppRoutes />
+        </BrowserRouter>
+      </SnackbarAlertProvider>
     </Box>
   )
 }

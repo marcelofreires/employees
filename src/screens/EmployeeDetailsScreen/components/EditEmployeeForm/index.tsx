@@ -6,12 +6,14 @@ import { useFormik } from 'formik'
 import { DOCUMENT_FIELD_MAX_LENGTH, EMPLOYEE_STATUS, EmployeeStatusLabel, TEXT_FIELD_VARIANT, validationSchema } from 'src/constants'
 import type { Employee } from 'src/types'
 import { employeeService } from 'src/services/employeeService'
+import { useSnackbarAlert } from 'src/contexts/SnackbarAlert'
 
 interface EditEmployeeFormProps {
   employee: Employee
 }
 
 export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
+  const {handleOpenSnackbar} = useSnackbarAlert()
   const formik = useFormik({
     initialValues: {
       id: employee.id,
@@ -30,10 +32,9 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
         })
         actions.resetForm({ values: response.data })
 
-        // TODO: Exibir mensagem sucesso para o usuário
+        handleOpenSnackbar({status: 'success', message: 'O funcionário foi editado'})
       } catch (error) {
-        // TODO: Exibir mensagem erro para o usuário
-        console.error('DEU ERRO', error)
+        handleOpenSnackbar({status: 'error', message: 'Houve um erro ao editar'})
       } finally {
         actions.setSubmitting(false)
       }

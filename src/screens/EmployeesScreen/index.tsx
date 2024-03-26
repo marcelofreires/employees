@@ -1,18 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Box, Button, Chip, Grid, Typography } from '@mui/material'
-import type { AlertColor } from '@mui/material'
 
 import type { Employees, EmployeeStatus, EmployeeFormValues } from 'src/types'
 import { employeeService } from 'src/services/employeeService'
-import { EmployeeCard, SnackbarAlert, Loading } from 'src/components'
+import { EmployeeCard, Loading } from 'src/components'
 import { BaseScreenLayout } from '../layouts/BaseScreenLayout'
 import { EmployeesList, AddEmployeeForm, ModalForm } from './components'
-
-type SnackbarStateProps = {
-  isOpen: boolean
-  status: AlertColor
-  message: string
-}
+import { useSnackbarAlert } from 'src/contexts/SnackbarAlert'
 
 type FilterEmployeeStatus = EmployeeStatus | null
 
@@ -20,8 +14,8 @@ export function EmployeesScreen() {
   const [employees, setEmployees] = useState<Employees>([])
   const [filterValue, setFilterValue] = useState<FilterEmployeeStatus>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [openSnackbar, setOpenSnackbar] = useState<SnackbarStateProps>({ isOpen: false, status: 'info', message: '' })
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const {handleOpenSnackbar} = useSnackbarAlert()
 
   async function handleCreateEmployee(values: EmployeeFormValues) {
     try {
@@ -59,18 +53,6 @@ export function EmployeesScreen() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  function handleOpenSnackbar({status, message}: Omit<SnackbarStateProps, 'isOpen'>) {
-    setOpenSnackbar({
-      isOpen: true,
-      status,
-      message
-    })
-  }
-
-  function handleCloseSnackbar() {
-    setOpenSnackbar((prevState) => ({...prevState, isOpen: false}))
   }
 
   function handleOpenModal() {
@@ -134,12 +116,6 @@ export function EmployeesScreen() {
           )
         }
       </BaseScreenLayout>
-      <SnackbarAlert
-        isOpen={openSnackbar.isOpen}
-        onClose={handleCloseSnackbar}
-        type={openSnackbar.status}
-        message={openSnackbar.message}
-      />
       <ModalForm isOpen={isOpenModal} onClose={handleCloseModal}>
         <AddEmployeeForm handleCreateEmployee={handleCreateEmployee} handleCloseModal={handleCloseModal} />
       </ModalForm>
