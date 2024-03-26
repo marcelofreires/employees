@@ -19,8 +19,9 @@ export function AddEmployeeForm({ handleCreateEmployee, handleCloseModal }: AddE
       status: '',
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, actions) => {
       handleCreateEmployee(values)
+      actions.setSubmitting(false)
     },
   })
 
