@@ -1,0 +1,108 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "Vincent Barnett",
+      "email": "vincent.barnett@example.com",
+      "document": "28379074050",
+      "occupation": "Frontend Developer",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "name": "Lisa Webb",
+      "email": "lisa.webb@example.com",
+      "document": "74754721160",
+      "occupation": "Backend Developer",
+      "status": "inactive"
+    },
+    {
+      "id": "3",
+      "name": "Sofia Lane",
+      "email": "sofia.lane@example.com",
+      "document": "81613614446",
+      "occupation": "Tech Lead",
+      "status": "pending"
+    },
+    {
+      "id": "4",
+      "name": "Fred Anderson",
+      "email": "fred.anderson@example.com",
+      "document": "98938777251",
+      "occupation": "Product Designer",
+      "status": "overdue"
+    },
+    {
+      "id": "5",
+      "name": "Anna Powell",
+      "email": "anna.powell@example.com",
+      "document": "31314511815",
+      "occupation": null,
+      "status": "overdue"
+    },
+    {
+      "id": "6",
+      "name": "Jack Bryant",
+      "email": "jack.bryant@example.com",
+      "document": "88224626296",
+      "occupation": "UX Designer",
+      "status": "inactive"
+    },
+    {
+      "id": "7",
+      "name": "Dora Gordon",
+      "email": "dora.gordon@example.com",
+      "document": "13221521790",
+      "occupation": "QA Engineer",
+      "status": "active"
+    },
+    {
+      "id": "9",
+      "name": "Dwayne Jones",
+      "email": "dwayne.jones@example.com",
+      "document": "55876397709",
+      "occupation": "Frontend Developer",
+      "status": "active"
+    },
+    {
+      "id": "10",
+      "name": "Hugh Roberts",
+      "email": "hugh.roberts@example.com",
+      "document": "05413253885",
+      "occupation": "Backend Developer",
+      "status": "active"
+    },
+    {
+      "id": "11",
+      "name": "Ruby Stone",
+      "email": "ruby.stone@example.com",
+      "document": "65596213837",
+      "occupation": null,
+      "status": "active"
+    },
+    {
+      "id": "12",
+      "name": "Terra Lewis",
+      "email": "terra.lewis@example.com",
+      "document": "16225452494",
+      "occupation": "Backend Developer",
+      "status": "pending"
+    },
+    {
+      "id": "13",
+      "name": "Kirk Evans",
+      "email": "kirk.evans@example.com",
+      "document": "17863071119",
+      "occupation": "Tech Lead",
+      "status": "inactive"
+    },
+    {
+      "id": "14",
+      "name": "Eva Fuller",
+      "email": "eva.fuller@example.com",
+      "document": "32272245188",
+      "occupation": "Product Designer",
+      "status": "pending"
+    }
+  ]
+}
