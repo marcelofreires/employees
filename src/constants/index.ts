@@ -15,3 +15,9 @@ export enum EmployeeStatusLabel {
 }
 
 export const TEXT_FIELD_VARIANT: TextFieldVariants = 'outlined'
+
+export const EMPLOYEE_STATUS = ['active', 'inactive', 'pending', 'overdue']
+
+export const REGEX_TO_ONLY_NUMBERS = /^\d+$/
+
+export const DOCUMENT_FIELD_MAX_LENGTH = 11
