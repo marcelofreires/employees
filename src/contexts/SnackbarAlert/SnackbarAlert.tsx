@@ -1,4 +1,4 @@
-import { createContext, useContext, useState} from 'react'
+import { createContext, useState} from 'react'
 import type { ReactNode } from 'react'
 import type { AlertColor } from '@mui/material'
 
@@ -14,7 +14,7 @@ type SnackbarStateProps = {
   message: string
 }
 
-const SnackbarAlertContext = createContext({
+export const SnackbarAlertContext = createContext({
   handleOpenSnackbar: ({status, message}: Omit<SnackbarStateProps, 'isOpen'>) => ({status, message})
 })
 
@@ -50,14 +50,4 @@ export function SnackbarAlertProvider({ children }: SnackbarAlertProviderProps) 
       />
     </SnackbarAlertContext.Provider>
   )
-}
-
-export function useSnackbarAlert() {
-  const context = useContext(SnackbarAlertContext);
-
-  if (!context) {
-    throw new Error('useSnackbarAlert must be used within an SnackbarAlertProvider');
-  }
-
-  return context;
 }
